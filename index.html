@@ -355,8 +355,7 @@
                 submitBtn.querySelector('span').textContent = 'Redirecting...';
                 
                 // Build WhatsApp URL
-                const userMobile = CONFIG.countryCode + mobile;
-                const message = '/pay ' + offerCode + ' ' + userMobile;
+                const message = '/pay ' + offerCode + ' ' + mobile;
                 const waUrl = 'https://wa.me/' + CONFIG.waNumber + '?text=' + encodeURIComponent(message);
                 
                 // Redirect
