@@ -1,2 +1,2 @@
-# purchase-pages
-Landing pages for brands to purchase memberships
+# Widget
+Purchase membership widget for brands
