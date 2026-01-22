@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Purchase your exclusive membership for Loco Otro">
+    <meta name="theme-color" content="#25D366">
+    <!-- Preconnect to WhatsApp domain for faster redirect -->
+    <link rel="preconnect" href="https://wa.me">
+    
+    <title>Loco Otro - Purchase Membership</title>
+    
+    <style>
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        
+        html { font-size: 16px; }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+            min-height: 100vh;
+            min-height: 100dvh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #25D366 0%, #128C7E 100%);
+            padding: 1.25rem;
+            line-height: 1.5;
+        }
+        
+        .widget {
+            background: #fff;
+            border-radius: 1rem;
+            padding: 2rem;
+            max-width: 22.5rem;
+            width: 100%;
+            box-shadow: 0 0.625rem 2.5rem rgba(0,0,0,0.2);
+        }
+        
+        .brand {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 1px solid #e0e0e0;
+        }
+        
+        .brand-logo {
+            max-height: 3.5rem;
+            max-width: 12rem;
+            width: auto;
+            height: auto;
+        }
+        
+        /* Fallback placeholder when no logo provided */
+        .brand-placeholder {
+            background: #f5f5f5;
+            border-radius: 0.5rem;
+            padding: 0.75rem 1.5rem;
+            font-weight: 700;
+            font-size: 1.25rem;
+            color: #333;
+            letter-spacing: -0.02em;
+        }
+        
+        h1 {
+            font-size: 1.375rem;
+            margin-bottom: 0.5rem;
+            color: #1a1a1a;
+            font-weight: 700;
+        }
+        
+        .subtitle {
+            color: #555;
+            margin-bottom: 1.5rem;
+            font-size: 0.9375rem;
+        }
+        
+        .form-group { margin-bottom: 1rem; }
+        
+        label {
+            display: block;
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 0.5rem;
+        }
+        
+        .input-group {
+            display: flex;
+            gap: 0.5rem;
+        }
+        
+        .country-code {
+            background: #f5f5f5;
+            border: 2px solid #e0e0e0;
+            border-radius: 0.5rem;
+            padding: 0.875rem 0.5rem;
+            font-size: 1rem;
+            width: 4.25rem;
+            text-align: center;
+            color: #333;
+        }
+        
+        .mobile-input {
+            flex: 1;
+            border: 2px solid #e0e0e0;
+            border-radius: 0.5rem;
+            padding: 0.875rem;
+            font-size: 1rem;
+            outline: none;
+            transition: border-color 0.2s, box-shadow 0.2s;
+            min-width: 0;
+            color: #1a1a1a;
+        }
+        
+        .mobile-input:focus {
+            border-color: #25D366;
+            box-shadow: 0 0 0 3px rgba(37, 211, 102, 0.2);
+        }
+        
+        .mobile-input.error {
+            border-color: #d32f2f;
+        }
+        
+        .mobile-input.error:focus {
+            box-shadow: 0 0 0 3px rgba(211, 47, 47, 0.2);
+        }
+        
+        .error-message {
+            color: #d32f2f;
+            font-size: 0.8125rem;
+            margin-top: 0.5rem;
+            display: none;
+            align-items: center;
+            gap: 0.25rem;
+        }
+        
+        .error-message.visible { display: flex; }
+        
+        .error-message svg {
+            flex-shrink: 0;
+            width: 1rem;
+            height: 1rem;
+        }
+        
+        .submit-btn {
+            width: 100%;
+            background: #25D366;
+            color: #fff;
+            border: none;
+            border-radius: 0.5rem;
+            padding: 1rem;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.2s, transform 0.1s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            min-height: 3.25rem;
+            touch-action: manipulation;
+        }
+        
+        .submit-btn:hover { background: #1ebe5d; }
+        .submit-btn:focus-visible {
+            outline: 3px solid #128C7E;
+            outline-offset: 2px;
+        }
+        .submit-btn:active { transform: scale(0.98); }
+        .submit-btn:disabled {
+            background: #a5d6a7;
+            cursor: not-allowed;
+            transform: none;
+        }
+        
+        .submit-btn svg {
+            width: 1.25rem;
+            height: 1.25rem;
+        }
+        
+        .footer {
+            margin-top: 1.5rem;
+            padding-top: 1rem;
+            border-top: 1px solid #e0e0e0;
+            text-align: center;
+        }
+        
+        .footer p {
+            font-size: 0.75rem;
+            color: #777;
+        }
+        
+        .whatsapp-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.25rem;
+            color: #555;
+            font-weight: 500;
+        }
+        
+        .whatsapp-badge svg {
+            width: 1rem;
+            height: 1rem;
+            color: #25D366;
+        }
+        
+        /* Reduce motion for accessibility */
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after {
+                transition-duration: 0.01ms !important;
+            }
+        }
+    </style>
+</head>
+<body>
+    <main class="widget" role="main">
+        <!-- Brand Section -->
+        <div class="brand">
+            <!-- 
+                Option 1: Replace with actual logo img tag
+                <img src="logo.webp" alt="Brand Name" class="brand-logo" width="180" height="56" fetchpriority="high">
+                
+                Option 2: Use data attribute to load dynamically (see JS below)
+            -->
+            <div class="brand-placeholder" id="brandLogo" aria-label="Brand logo">BRAND</div>
+        </div>
+        
+        <h1>🎉 Claim Your Membership</h1>
+        <p class="subtitle">Enter your mobile number to continue the purchase on WhatsApp</p>
+        
+        <form id="membershipForm" novalidate>
+            <div class="form-group">
+                <label for="mobile">Mobile Number</label>
+                <div class="input-group">
+                    <span class="country-code" aria-hidden="true">+91</span>
+                    <input 
+                        type="tel" 
+                        id="mobile" 
+                        class="mobile-input"
+                        placeholder="9876543210" 
+                        maxlength="10"
+                        inputmode="numeric"
+                        pattern="[6-9][0-9]{9}"
+                        autocomplete="tel-national"
+                        aria-describedby="mobileError"
+                        required
+                    >
+                </div>
+                <div class="error-message" id="mobileError" role="alert" aria-live="polite">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                        <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd"/>
+                    </svg>
+                    <span>Please enter a valid 10-digit mobile number</span>
+                </div>
+            </div>
+            
+            <button type="submit" class="submit-btn" id="submitBtn">
+                <span>Continue on WhatsApp</span>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                    <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/>
+                    <path fill-rule="evenodd" d="M12 2C6.477 2 2 6.477 2 12c0 1.89.525 3.66 1.438 5.168L2.546 20.2A1 1 0 003.8 21.454l3.032-.892A9.96 9.96 0 0012 22c5.523 0 10-4.477 10-10S17.523 2 12 2zM4 12a8 8 0 1114.32 4.906l-.244.327.892 3.032-3.032-.892-.327.244A8 8 0 014 12z" clip-rule="evenodd"/>
+                </svg>
+            </button>
+        </form>
+        
+        <footer class="footer">
+            <p>
+                <span class="whatsapp-badge">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                        <path d="M12 2C6.477 2 2 6.477 2 12c0 1.89.525 3.66 1.438 5.168L2.546 20.2A1 1 0 003.8 21.454l3.032-.892A9.96 9.96 0 0012 22c5.523 0 10-4.477 10-10S17.523 2 12 2z"/>
+                    </svg>
+                    Powered by WhatsApp
+                </span>
+            </p>
+        </footer>
+    </main>
+
+    <script>
+        (function() {
+            'use strict';
+            
+            // Configuration - modify these values
+            const CONFIG = {
+                waNumber: '+919673333656',
+                countryCode: '+91'
+            };
+            
+            // Parse URL for offer code and optional brand info
+            // Supports: /offer/CODE or ?offer=CODE&brand=NAME&logo=URL
+            const url = new URL(window.location.href);
+            const pathParts = window.location.pathname.split('/').filter(Boolean);
+            const offerCode = url.searchParams.get('offer');
+            
+            // Brand customization via URL params
+            const brandName = url.searchParams.get('brand');
+            const brandLogo = url.searchParams.get('logo');
+            
+            // Update brand display
+            const brandEl = document.getElementById('brandLogo');
+            if (brandLogo) {
+                const img = document.createElement('img');
+                img.src = decodeURIComponent(brandLogo);
+                img.alt = brandName || 'Brand logo';
+                img.className = 'brand-logo';
+                img.width = 180;
+                img.height = 56;
+                img.fetchPriority = 'high';
+                brandEl.replaceWith(img);
+            } else if (brandName) {
+                brandEl.textContent = decodeURIComponent(brandName);
+                brandEl.setAttribute('aria-label', decodeURIComponent(brandName) + ' logo');
+            }
+            
+            // DOM elements
+            const form = document.getElementById('membershipForm');
+            const mobileInput = document.getElementById('mobile');
+            const errorMessage = document.getElementById('mobileError');
+            const submitBtn = document.getElementById('submitBtn');
+            
+            // Validate Indian mobile number
+            function isValidMobile(number) {
+                return /^[6-9]\d{9}$/.test(number);
+            }
+            
+            // Show/hide error state
+            function setError(show) {
+                mobileInput.classList.toggle('error', show);
+                errorMessage.classList.toggle('visible', show);
+            }
+            
+            // Filter input to digits only
+            mobileInput.addEventListener('input', function(e) {
+                e.target.value = e.target.value.replace(/\D/g, '').slice(0, 10);
+                if (errorMessage.classList.contains('visible')) {
+                    setError(false);
+                }
+            });
+            
+            // Form submission
+            form.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                const mobile = mobileInput.value.trim();
+                
+                if (!isValidMobile(mobile)) {
+                    setError(true);
+                    mobileInput.focus();
+                    return;
+                }
+                
+                // Disable button to prevent double-submit
+                submitBtn.disabled = true;
+                submitBtn.querySelector('span').textContent = 'Redirecting...';
+                
+                // Build WhatsApp URL
+                const userMobile = CONFIG.countryCode + mobile;
+                const message = '/pay ' + offerCode + ' ' + userMobile;
+                const waUrl = 'https://wa.me/' + CONFIG.waNumber + '?text=' + encodeURIComponent(message);
+                
+                // Redirect
+                window.location.href = waUrl;
+            });
+            
+            // Focus input on load for better UX
+            if (window.innerWidth > 768) {
+                mobileInput.focus();
+            }
+        })();
+    </script>
+</body>
+</html>
