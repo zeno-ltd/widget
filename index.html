@@ -283,7 +283,7 @@
             
             // Configuration - modify these values
             const CONFIG = {
-                waNumber: '+919673333656',
+                waNumber: '8484022983',
                 countryCode: '+91'
             };
             
@@ -296,6 +296,7 @@
             // Brand customization via URL params
             const brandName = url.searchParams.get('brand');
             const brandLogo = url.searchParams.get('logo');
+            const waNumber = CONFIG.countryCode + (url.searchParams.get('waNumber') || CONFIG.waNumber);
             
             // Update brand display
             const brandEl = document.getElementById('brandLogo');
@@ -356,7 +357,7 @@
                 
                 // Build WhatsApp URL
                 const message = '/pay ' + offerCode + ' ' + mobile;
-                const waUrl = 'https://wa.me/' + CONFIG.waNumber + '?text=' + encodeURIComponent(message);
+                const waUrl = 'https://wa.me/' + waNumber + '?text=' + encodeURIComponent(message);
                 
                 // Redirect
                 window.location.href = waUrl;
