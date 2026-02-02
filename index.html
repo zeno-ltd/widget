@@ -3,13 +3,35 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Purchase your exclusive membership for Loco Otro">
+    <meta name="description" id="metaDescription"  content="Purchase your exclusive membership for Loco Otro">
     <meta name="theme-color" content="#25D366">
     <!-- Preconnect to WhatsApp domain for faster redirect -->
     <link rel="preconnect" href="https://wa.me">
     
-    <title>Loco Otro - Purchase Membership</title>
+    <title id="pageTitle">Loco Otro - Purchase Membership</title>
     
+    <!-- Early brand detection to update meta tags before paint -->
+    <script>
+        (function() {
+            var params = new URLSearchParams(window.location.search);
+            var brand = params.get('brand');
+            var themeColor = params.get('theme'); // Optional: custom theme color
+            
+            if (brand) {
+                brand = decodeURIComponent(brand);
+                document.getElementById('metaDescription').content = 'Purchase your exclusive membership for ' + brand;
+                document.getElementById('pageTitle').textContent = brand + ' – Purchase Membership';
+                
+                // Store for later use in body script
+                window.__BRAND_NAME__ = brand;
+            }
+            
+            if (themeColor) {
+                document.getElementById('themeColor').content = '#' + themeColor;
+                window.__THEME_COLOR__ = '#' + themeColor;
+            }
+        })();
+    </script>
     <style>
         *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
         
