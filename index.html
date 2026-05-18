@@ -74,7 +74,6 @@
             height: auto;
         }
         
-        /* Fallback placeholder when no logo provided */
         .brand-placeholder {
             background: #f5f5f5;
             border-radius: 0.5rem;
@@ -107,6 +106,25 @@
             color: #333;
             margin-bottom: 0.5rem;
         }
+        .label-hint { font-weight: 400; color: #666; font-size: 0.8125rem; }
+        .country-select {
+            width: 100%;
+            padding: 0.875rem;
+            font-size: 1rem;
+            border: 2px solid #e0e0e0;
+            border-radius: 0.5rem;
+            background: #fff;
+            color: #333;
+            cursor: pointer;
+            outline: none;
+            transition: border-color 0.2s, box-shadow 0.2s;
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23666' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 0.75rem center;
+            padding-right: 2.5rem;
+        }
+        .country-select:focus { border-color: #25D366; box-shadow: 0 0 0 3px rgba(37, 211, 102, 0.2); }
         
         .input-group {
             display: flex;
@@ -119,9 +137,15 @@
             border-radius: 0.5rem;
             padding: 0.875rem 0.5rem;
             font-size: 1rem;
-            width: 4.25rem;
+            min-width: 5.5rem;
             text-align: center;
             color: #333;
+            user-select: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.25rem;
+            white-space: nowrap;
         }
         
         .mobile-input {
@@ -147,6 +171,12 @@
         
         .mobile-input.error:focus {
             box-shadow: 0 0 0 3px rgba(211, 47, 47, 0.2);
+        }
+        
+        .hint {
+            font-size: 0.75rem;
+            color: #666;
+            margin-top: 0.375rem;
         }
         
         .error-message {
@@ -228,7 +258,6 @@
             color: #25D366;
         }
         
-        /* Reduce motion for accessibility */
         @media (prefers-reduced-motion: reduce) {
             *, *::before, *::after {
                 transition-duration: 0.01ms !important;
@@ -238,14 +267,7 @@
 </head>
 <body>
     <main class="widget" role="main">
-        <!-- Brand Section -->
         <div class="brand">
-            <!-- 
-                Option 1: Replace with actual logo img tag
-                <img src="logo.webp" alt="Brand Name" class="brand-logo" width="180" height="56" fetchpriority="high">
-                
-                Option 2: Use data attribute to load dynamically (see JS below)
-            -->
             <div class="brand-placeholder" id="brandLogo" aria-label="Brand logo">BRAND</div>
         </div>
         
@@ -254,27 +276,57 @@
         
         <form id="membershipForm" novalidate>
             <div class="form-group">
+                <label for="country">Country</label>
+                <select id="country" class="country-select">
+                    <option value="IN" selected>🇮🇳 India</option>
+                    <option value="AE">🇦🇪 UAE (Dubai)</option>
+                    <option value="AU">🇦🇺 Australia</option>
+                    <option value="BE">🇧🇪 Belgium</option>
+                    <option value="CH">🇨🇭 Switzerland</option>
+                    <option value="DE">🇩🇪 Germany</option>
+                    <option value="DK">🇩🇰 Denmark</option>
+                    <option value="ES">🇪🇸 Spain</option>
+                    <option value="FR">🇫🇷 France</option>
+                    <option value="GB">🇬🇧 United Kingdom</option>
+                    <option value="GR">🇬🇷 Greece</option>
+                    <option value="HK">🇭🇰 Hong Kong</option>
+                    <option value="IT">🇮🇹 Italy</option>
+                    <option value="JP">🇯🇵 Japan</option>
+                    <option value="KR">🇰🇷 South Korea</option>
+                    <option value="KW">🇰🇼 Kuwait</option>
+                    <option value="LK">🇱🇰 Sri Lanka</option>
+                    <option value="MM">🇲🇲 Myanmar</option>
+                    <option value="MX">🇲🇽 Mexico</option>
+                    <option value="MY">🇲🇾 Malaysia</option>
+                    <option value="NL">🇳🇱 Netherlands</option>
+                    <option value="NO">🇳🇴 Norway</option>
+                    <option value="NZ">🇳🇿 New Zealand</option>
+                    <option value="SA">🇸🇦 Saudi Arabia</option>
+                    <option value="SG">🇸🇬 Singapore</option>
+                    <option value="TR">🇹🇷 Turkey</option>
+                </select>
+            </div>
+            <div class="form-group">
                 <label for="mobile">Mobile Number</label>
                 <div class="input-group">
-                    <span class="country-code" aria-hidden="true">+91</span>
+                    <span class="country-code" id="countryCode" aria-label="Country code">🇮🇳 +91</span>
                     <input 
                         type="tel" 
                         id="mobile" 
                         class="mobile-input"
                         placeholder="9876543210" 
-                        maxlength="10"
                         inputmode="numeric"
-                        pattern="[6-9][0-9]{9}"
                         autocomplete="tel-national"
-                        aria-describedby="mobileError"
+                        aria-describedby="mobileHint mobileError"
                         required
                     >
                 </div>
+                <div class="hint" id="mobileHint">Enter your 10-digit mobile number</div>
                 <div class="error-message" id="mobileError" role="alert" aria-live="polite">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
                         <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd"/>
                     </svg>
-                    <span>Please enter a valid 10-digit mobile number</span>
+                    <span id="errorText">Please enter a valid mobile number</span>
                 </div>
             </div>
             
@@ -303,14 +355,365 @@
         (function() {
             'use strict';
             
-            // Configuration - modify these values
+            // Country configurations with validation rules
+            var COUNTRIES = {
+                // Asia & Middle East
+                IN: {
+                    name: 'India',
+                    code: '+91',
+                    flag: '🇮🇳',
+                    length: 10,
+                    pattern: /^[6-9]\d{9}$/,
+                    placeholder: '9876543210',
+                    hint: 'Enter your 10-digit mobile number',
+                    errorMsg: 'Indian mobile numbers must be 10 digits starting with 6-9',
+                    cleanPrefix: function(num) {
+                        if (num.startsWith('0')) return num.substring(1);
+                        return num;
+                    }
+                },
+                AE: {
+                    name: 'UAE',
+                    code: '+971',
+                    flag: '🇦🇪',
+                    length: 9,
+                    pattern: /^5[0-9]\d{7}$/,
+                    placeholder: '501234567',
+                    hint: 'Enter your 9-digit mobile number (starting with 5)',
+                    errorMsg: 'UAE mobile numbers must be 9 digits starting with 5',
+                    cleanPrefix: function(num) {
+                        if (num.startsWith('0')) return num.substring(1);
+                        return num;
+                    }
+                },
+                HK: {
+                    name: 'Hong Kong',
+                    code: '+852',
+                    flag: '🇭🇰',
+                    length: 8,
+                    pattern: /^[4-9]\d{7}$/,
+                    placeholder: '91234567',
+                    hint: 'Enter your 8-digit mobile number',
+                    errorMsg: 'Hong Kong mobile numbers must be 8 digits starting with 4-9',
+                    cleanPrefix: function(num) { return num; }
+                },
+                JP: {
+                    name: 'Japan',
+                    code: '+81',
+                    flag: '🇯🇵',
+                    length: 10,
+                    pattern: /^[789]0\d{8}$/,
+                    placeholder: '9012345678',
+                    hint: 'Enter your 10-digit mobile number (starting with 70, 80, or 90)',
+                    errorMsg: 'Japanese mobile numbers must be 10 digits starting with 70, 80, or 90',
+                    cleanPrefix: function(num) {
+                        if (num.startsWith('0')) return num.substring(1);
+                        return num;
+                    }
+                },
+                KR: {
+                    name: 'South Korea',
+                    code: '+82',
+                    flag: '🇰🇷',
+                    length: 10,
+                    pattern: /^1[0-9]\d{8}$/,
+                    placeholder: '1012345678',
+                    hint: 'Enter your 10-digit mobile number (starting with 10, 11, etc.)',
+                    errorMsg: 'Korean mobile numbers must be 10 digits starting with 10, 11, 16, 17, 18, or 19',
+                    cleanPrefix: function(num) {
+                        if (num.startsWith('0')) return num.substring(1);
+                        return num;
+                    }
+                },
+                KW: {
+                    name: 'Kuwait',
+                    code: '+965',
+                    flag: '🇰🇼',
+                    length: 8,
+                    pattern: /^[569]\d{7}$/,
+                    placeholder: '51234567',
+                    hint: 'Enter your 8-digit mobile number (starting with 5, 6, or 9)',
+                    errorMsg: 'Kuwait mobile numbers must be 8 digits starting with 5, 6, or 9',
+                    cleanPrefix: function(num) { return num; }
+                },
+                LK: {
+                    name: 'Sri Lanka',
+                    code: '+94',
+                    flag: '🇱🇰',
+                    length: 9,
+                    pattern: /^7\d{8}$/,
+                    placeholder: '712345678',
+                    hint: 'Enter your 9-digit mobile number (starting with 7)',
+                    errorMsg: 'Sri Lankan mobile numbers must be 9 digits starting with 7',
+                    cleanPrefix: function(num) {
+                        if (num.startsWith('0')) return num.substring(1);
+                        return num;
+                    }
+                },
+                MM: {
+                    name: 'Myanmar',
+                    code: '+95',
+                    flag: '🇲🇲',
+                    length: [8, 9, 10],
+                    pattern: /^9\d{7,9}$/,
+                    placeholder: '912345678',
+                    hint: 'Enter your 8-10 digit mobile number (starting with 9)',
+                    errorMsg: 'Myanmar mobile numbers must be 8-10 digits starting with 9',
+                    cleanPrefix: function(num) {
+                        if (num.startsWith('0')) return num.substring(1);
+                        return num;
+                    }
+                },
+                MY: {
+                    name: 'Malaysia',
+                    code: '+60',
+                    flag: '🇲🇾',
+                    length: [9, 10],
+                    pattern: /^1\d{8,9}$/,
+                    placeholder: '123456789',
+                    hint: 'Enter your 9-10 digit mobile number (starting with 1)',
+                    errorMsg: 'Malaysian mobile numbers must be 9-10 digits starting with 1',
+                    cleanPrefix: function(num) {
+                        if (num.startsWith('0')) return num.substring(1);
+                        return num;
+                    }
+                },
+                SA: {
+                    name: 'Saudi Arabia',
+                    code: '+966',
+                    flag: '🇸🇦',
+                    length: 9,
+                    pattern: /^5\d{8}$/,
+                    placeholder: '512345678',
+                    hint: 'Enter your 9-digit mobile number (starting with 5)',
+                    errorMsg: 'Saudi mobile numbers must be 9 digits starting with 5',
+                    cleanPrefix: function(num) {
+                        if (num.startsWith('0')) return num.substring(1);
+                        return num;
+                    }
+                },
+                SG: {
+                    name: 'Singapore',
+                    code: '+65',
+                    flag: '🇸🇬',
+                    length: 8,
+                    pattern: /^[89]\d{7}$/,
+                    placeholder: '91234567',
+                    hint: 'Enter your 8-digit mobile number (starting with 8 or 9)',
+                    errorMsg: 'Singapore mobile numbers must be 8 digits starting with 8 or 9',
+                    cleanPrefix: function(num) { return num; }
+                },
+                TR: {
+                    name: 'Turkey',
+                    code: '+90',
+                    flag: '🇹🇷',
+                    length: 10,
+                    pattern: /^5\d{9}$/,
+                    placeholder: '5321234567',
+                    hint: 'Enter your 10-digit mobile number (starting with 5)',
+                    errorMsg: 'Turkish mobile numbers must be 10 digits starting with 5',
+                    cleanPrefix: function(num) {
+                        if (num.startsWith('0')) return num.substring(1);
+                        return num;
+                    }
+                },
+                
+                // Europe
+                BE: {
+                    name: 'Belgium',
+                    code: '+32',
+                    flag: '🇧🇪',
+                    length: 9,
+                    pattern: /^4\d{8}$/,
+                    placeholder: '412345678',
+                    hint: 'Enter your 9-digit mobile number (starting with 4)',
+                    errorMsg: 'Belgian mobile numbers must be 9 digits starting with 4',
+                    cleanPrefix: function(num) {
+                        if (num.startsWith('0')) return num.substring(1);
+                        return num;
+                    }
+                },
+                CH: {
+                    name: 'Switzerland',
+                    code: '+41',
+                    flag: '🇨🇭',
+                    length: 9,
+                    pattern: /^7[5-9]\d{7}$/,
+                    placeholder: '791234567',
+                    hint: 'Enter your 9-digit mobile number (starting with 7)',
+                    errorMsg: 'Swiss mobile numbers must be 9 digits starting with 7',
+                    cleanPrefix: function(num) {
+                        if (num.startsWith('0')) return num.substring(1);
+                        return num;
+                    }
+                },
+                DE: {
+                    name: 'Germany',
+                    code: '+49',
+                    flag: '🇩🇪',
+                    length: [10, 11],
+                    pattern: /^1[5-7]\d{8,9}$/,
+                    placeholder: '15123456789',
+                    hint: 'Enter your 10-11 digit mobile number (starting with 15, 16, or 17)',
+                    errorMsg: 'German mobile numbers must be 10-11 digits starting with 15, 16, or 17',
+                    cleanPrefix: function(num) {
+                        if (num.startsWith('0')) return num.substring(1);
+                        return num;
+                    }
+                },
+                DK: {
+                    name: 'Denmark',
+                    code: '+45',
+                    flag: '🇩🇰',
+                    length: 8,
+                    pattern: /^[2-9]\d{7}$/,
+                    placeholder: '20123456',
+                    hint: 'Enter your 8-digit mobile number',
+                    errorMsg: 'Danish mobile numbers must be 8 digits',
+                    cleanPrefix: function(num) { return num; }
+                },
+                ES: {
+                    name: 'Spain',
+                    code: '+34',
+                    flag: '🇪🇸',
+                    length: 9,
+                    pattern: /^[67]\d{8}$/,
+                    placeholder: '612345678',
+                    hint: 'Enter your 9-digit mobile number (starting with 6 or 7)',
+                    errorMsg: 'Spanish mobile numbers must be 9 digits starting with 6 or 7',
+                    cleanPrefix: function(num) { return num; }
+                },
+                FR: {
+                    name: 'France',
+                    code: '+33',
+                    flag: '🇫🇷',
+                    length: 9,
+                    pattern: /^[67]\d{8}$/,
+                    placeholder: '612345678',
+                    hint: 'Enter your 9-digit mobile number (starting with 6 or 7)',
+                    errorMsg: 'French mobile numbers must be 9 digits starting with 6 or 7',
+                    cleanPrefix: function(num) {
+                        if (num.startsWith('0')) return num.substring(1);
+                        return num;
+                    }
+                },
+                GB: {
+                    name: 'United Kingdom',
+                    code: '+44',
+                    flag: '🇬🇧',
+                    length: 10,
+                    pattern: /^7\d{9}$/,
+                    placeholder: '7911123456',
+                    hint: 'Enter your 10-digit mobile number (starting with 7)',
+                    errorMsg: 'UK mobile numbers must be 10 digits starting with 7',
+                    cleanPrefix: function(num) {
+                        if (num.startsWith('0')) return num.substring(1);
+                        return num;
+                    }
+                },
+                GR: {
+                    name: 'Greece',
+                    code: '+30',
+                    flag: '🇬🇷',
+                    length: 10,
+                    pattern: /^69\d{8}$/,
+                    placeholder: '6912345678',
+                    hint: 'Enter your 10-digit mobile number (starting with 69)',
+                    errorMsg: 'Greek mobile numbers must be 10 digits starting with 69',
+                    cleanPrefix: function(num) { return num; }
+                },
+                IT: {
+                    name: 'Italy',
+                    code: '+39',
+                    flag: '🇮🇹',
+                    length: 10,
+                    pattern: /^3\d{9}$/,
+                    placeholder: '3123456789',
+                    hint: 'Enter your 10-digit mobile number (starting with 3)',
+                    errorMsg: 'Italian mobile numbers must be 10 digits starting with 3',
+                    cleanPrefix: function(num) { return num; }
+                },
+                NL: {
+                    name: 'Netherlands',
+                    code: '+31',
+                    flag: '🇳🇱',
+                    length: 9,
+                    pattern: /^6\d{8}$/,
+                    placeholder: '612345678',
+                    hint: 'Enter your 9-digit mobile number (starting with 6)',
+                    errorMsg: 'Dutch mobile numbers must be 9 digits starting with 6',
+                    cleanPrefix: function(num) {
+                        if (num.startsWith('0')) return num.substring(1);
+                        return num;
+                    }
+                },
+                NO: {
+                    name: 'Norway',
+                    code: '+47',
+                    flag: '🇳🇴',
+                    length: 8,
+                    pattern: /^[49]\d{7}$/,
+                    placeholder: '41234567',
+                    hint: 'Enter your 8-digit mobile number (starting with 4 or 9)',
+                    errorMsg: 'Norwegian mobile numbers must be 8 digits starting with 4 or 9',
+                    cleanPrefix: function(num) { return num; }
+                },
+                
+                // Oceania
+                AU: {
+                    name: 'Australia',
+                    code: '+61',
+                    flag: '🇦🇺',
+                    length: 9,
+                    pattern: /^4\d{8}$/,
+                    placeholder: '412345678',
+                    hint: 'Enter your 9-digit mobile number (starting with 4)',
+                    errorMsg: 'Australian mobile numbers must be 9 digits starting with 4',
+                    cleanPrefix: function(num) {
+                        if (num.startsWith('0')) return num.substring(1);
+                        return num;
+                    }
+                },
+                NZ: {
+                    name: 'New Zealand',
+                    code: '+64',
+                    flag: '🇳🇿',
+                    length: [8, 9, 10],
+                    pattern: /^2\d{7,9}$/,
+                    placeholder: '211234567',
+                    hint: 'Enter your 8-10 digit mobile number (starting with 2)',
+                    errorMsg: 'NZ mobile numbers must be 8-10 digits starting with 2',
+                    cleanPrefix: function(num) {
+                        if (num.startsWith('0')) return num.substring(1);
+                        return num;
+                    }
+                },
+                
+                // Americas
+                MX: {
+                    name: 'Mexico',
+                    code: '+52',
+                    flag: '🇲🇽',
+                    length: 10,
+                    pattern: /^[1-9]\d{9}$/,
+                    placeholder: '5512345678',
+                    hint: 'Enter your 10-digit mobile number',
+                    errorMsg: 'Mexican mobile numbers must be 10 digits',
+                    cleanPrefix: function(num) {
+                        // Remove leading 1 if present (old format)
+                        if (num.length === 11 && num.startsWith('1')) return num.substring(1);
+                        return num;
+                    }
+                }
+            };
+
+            // Configuration
             const CONFIG = {
                 waNumber: '8484022983',
                 countryCode: '+91'
             };
             
             // Parse URL for offer code and optional brand info
-            // Supports: /offer/CODE or ?offer=CODE&brand=NAME&logo=URL
             const url = new URL(window.location.href);
             const pathParts = window.location.pathname.split('/').filter(Boolean);
             const offerCode = url.searchParams.get('offer');
@@ -336,26 +739,97 @@
                 brandEl.setAttribute('aria-label', decodeURIComponent(brandName) + ' logo');
             }
             
-            // DOM elements
-            const form = document.getElementById('membershipForm');
-            const mobileInput = document.getElementById('mobile');
-            const errorMessage = document.getElementById('mobileError');
-            const submitBtn = document.getElementById('submitBtn');
-            
-            // Validate Indian mobile number
-            function isValidMobile(number) {
-                return /^[6-9]\d{9}$/.test(number);
+            // Validate mobile number based on country
+            function validateMobile(number, countryCode) {
+                var country = COUNTRIES[countryCode];
+                if (!country) {
+                    return { valid: false, error: 'Invalid country selected', cleaned: null };
+                }
+                
+                var cleaned = number.replace(/[\s\-\(\)\.]/g, '');
+                
+                // Remove country code if user included it
+                var dialCode = country.code.replace('+', '');
+                if (cleaned.startsWith('+' + dialCode)) {
+                    cleaned = cleaned.substring(dialCode.length + 1);
+                } else if (cleaned.startsWith(dialCode) && cleaned.length > (Array.isArray(country.length) ? Math.max(...country.length) : country.length) + dialCode.length - 1) {
+                    cleaned = cleaned.substring(dialCode.length);
+                }
+                
+                // Apply country-specific prefix cleaning (e.g., remove leading 0)
+                cleaned = country.cleanPrefix(cleaned);
+                
+                if (!cleaned) {
+                    return { valid: false, error: 'Please enter your mobile number', cleaned: null };
+                }
+                
+                if (!/^\d+$/.test(cleaned)) {
+                    return { valid: false, error: 'Mobile number should contain only digits', cleaned: null };
+                }
+                
+                // Check length
+                var validLength = Array.isArray(country.length) 
+                    ? country.length.includes(cleaned.length)
+                    : cleaned.length === country.length;
+                    
+                if (!validLength) {
+                    var expectedLength = Array.isArray(country.length) 
+                        ? country.length.join('-') + ' digits'
+                        : country.length + ' digits';
+                    return { 
+                        valid: false, 
+                        error: 'Please enter a ' + expectedLength + ' mobile number',
+                        cleaned: null 
+                    };
+                }
+                
+                // Check pattern
+                if (!country.pattern.test(cleaned)) {
+                    return { valid: false, error: country.errorMsg, cleaned: null };
+                }
+                
+                // Reject obvious fake patterns
+                if (/^(\d)\1+$/.test(cleaned)) {
+                    return { valid: false, error: 'Please enter a valid mobile number', cleaned: null };
+                }
+                
+                return { valid: true, error: null, cleaned: cleaned };
             }
             
-            // Show/hide error state
-            function setError(show) {
+            // DOM elements
+            var form = document.getElementById('membershipForm');
+            var countrySelect = document.getElementById('country');
+            var countryCodeDisplay = document.getElementById('countryCode');
+            var mobileInput = document.getElementById('mobile');
+            var mobileHint = document.getElementById('mobileHint');
+            var errorMessage = document.getElementById('mobileError');
+            var errorText = document.getElementById('errorText');
+            var submitBtn = document.getElementById('submitBtn');
+            
+            // Update UI when country changes
+            function updateCountryUI() {
+                var country = COUNTRIES[countrySelect.value];
+                countryCodeDisplay.textContent = country.flag + ' ' + country.code;
+                countryCodeDisplay.setAttribute('aria-label', country.name + ' country code ' + country.code);
+                mobileInput.placeholder = country.placeholder;
+                mobileHint.textContent = country.hint;
+                mobileInput.value = '';
+                setError(false);
+            }
+            
+            countrySelect.addEventListener('change', updateCountryUI);
+            
+            function setError(show, message) {
                 mobileInput.classList.toggle('error', show);
                 errorMessage.classList.toggle('visible', show);
+                if (message) {
+                    errorText.textContent = message;
+                }
             }
             
             // Filter input to digits only
             mobileInput.addEventListener('input', function(e) {
-                e.target.value = e.target.value.replace(/\D/g, '').slice(0, 10);
+                e.target.value = e.target.value.replace(/\D/g, '');
                 if (errorMessage.classList.contains('visible')) {
                     setError(false);
                 }
@@ -365,10 +839,12 @@
             form.addEventListener('submit', function(e) {
                 e.preventDefault();
                 
-                const mobile = mobileInput.value.trim();
+                var mobile = mobileInput.value.trim();
+                var selectedCountry = countrySelect.value;
+                var validation = validateMobile(mobile, selectedCountry);
                 
-                if (!isValidMobile(mobile)) {
-                    setError(true);
+                if (!validation.valid) {
+                    setError(true, validation.error);
                     mobileInput.focus();
                     return;
                 }
@@ -377,14 +853,19 @@
                 submitBtn.disabled = true;
                 submitBtn.querySelector('span').textContent = 'Redirecting...';
                 
+                var country = COUNTRIES[selectedCountry];
+                var userMobile = country.code + validation.cleaned;
                 // Build WhatsApp URL
-                const message = '/pay ' + offerCode + ' ' + mobile;
+                const message = '/pay ' + offerCode + ' ' + userMobile;
                 const waUrl = 'https://wa.me/' + waNumber + '?text=' + encodeURIComponent(message);
                 
                 // Redirect
                 window.location.href = waUrl;
             });
             
+            // Initialize
+            updateCountryUI();
+
             // Focus input on load for better UX
             if (window.innerWidth > 768) {
                 mobileInput.focus();
