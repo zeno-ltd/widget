@@ -854,7 +854,8 @@
                 submitBtn.querySelector('span').textContent = 'Redirecting...';
                 
                 var country = COUNTRIES[selectedCountry];
-                var userMobile = country.code + validation.cleaned;
+                var countryCode = country.code.replace(/^\+/, ""); 
+                var userMobile = countryCode + validation.cleaned;
                 // Build WhatsApp URL
                 const message = '/pay ' + offerCode + ' ' + userMobile;
                 const waUrl = 'https://wa.me/' + waNumber + '?text=' + encodeURIComponent(message);
